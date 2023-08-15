@@ -24,10 +24,7 @@ def get_device_channel_index(dev_index, channel_index):
 def ret_errcheck(ret):
     """Check error code, ignoring void functions"""
     if ret != NiceSCU._defs['SA_OK']:
-        if ret == NiceSCU._defs['SA_NO_DEVICES_FOUND_ERROR']:
-            print('SA_NO_DEVICES_FOUND')
-        else:
-            raise(SmarActError(ret))
+        raise(SmarActError(ret))
 
 
 class NiceSCU(NiceLib):
@@ -78,9 +75,6 @@ class NiceSCU(NiceLib):
         MoveToReference_S = Sig('in', 'in', 'in', 'in')
         SetZero_S = Sig('in', 'in')
         GetStatus_S = Sig('in', 'in', 'out')
-
-        GetClosedLoopMaxFrequency_S = Sig('in', 'in', 'out')
-        SetClosedLoopMaxFrequency_S = Sig('in', 'in', 'in')
 
         # for actuator without sensors
         MoveStep_S = Sig('in', 'in', 'in', 'in', 'in')

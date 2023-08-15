@@ -30,14 +30,13 @@ log = get_logger(__name__)
 
 
 def list_instruments():
-    pset = []
     rsrc = NiceTLPM.Rsrc()
     Nrsrc = rsrc.findRsrc()
-    if Nrsrc > 0:
-        for ind in range(Nrsrc):
-            name = rsrc.getRsrcName(ind)
-            model_name, serial, manufacturer, isavailable = rsrc.getRsrcInfo(ind)
-            pset.append(ParamSet(TLPM, serial=serial.decode(),  model=model_name.decode()))
+    pset = []
+    for ind in range(Nrsrc):
+        name = rsrc.getRsrcName(ind)
+        model_name, serial, manufacturer, isavailable = rsrc.getRsrcInfo(ind)
+        pset.append(ParamSet(TLPM, serial=serial.decode(),  model=model_name.decode()))
     return pset
 
 
@@ -133,14 +132,13 @@ if __name__ == '__main__':
     from instrumental import list_instruments, instrument
 
     psets = list_instruments(module='powermeters')
-    if len(psets) > 0:
-        with instrument(psets[0]) as powermeter:
-            print(powermeter.get_device_info())
-            print(powermeter.power_unit.name)
-            powermeter.power_unit = 'W'
-            print(powermeter.get_power())
+    with instrument(psets[0]) as powermeter:
+        print(powermeter.get_device_info())
+        print(powermeter.power_unit.name)
+        powermeter.power_unit = 'W'
+        print(powermeter.get_power())
 
-            print(powermeter.get_wavelength_range())
-            print(powermeter.wavelength)
-            powermeter.wavelength = Q_('0.532µm')
+        print(powermeter.get_wavelength_range())
+        print(powermeter.wavelength)
+        powermeter.wavelength = Q_('0.532µm')
 
